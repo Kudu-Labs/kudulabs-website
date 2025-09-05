@@ -349,7 +349,7 @@
     <a href="https://instagram.com/kudulabshq" target="_blank">Instagram</a> ·
     <a href="https://www.threads.net/kudulabshq" target="_blank">Threads</a>
   </div>
-  <div style="color:var(--muted)">© 2025 Kudu Labs, Inc. — Research & collaboration</div>
+  <div style="color:var(--muted)">© <span id="year">2025</span> Kudu Labs, Inc. — Research & collaboration</div>
 </footer>
 
 <!-- MODALS (waitlist, contact, join) -->
@@ -524,6 +524,9 @@ document.querySelectorAll('.tab').forEach(tab=>{
 
 /* cleanup Vanta on unload */
 window.addEventListener('beforeunload', ()=>{ if(vantaEffect) vantaEffect.destroy(); });
+</script>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 </body>
 </html>
