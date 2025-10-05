@@ -1,0 +1,1351 @@
+  :root{
+    --bg:#0f1213;           /* slightly grayish black */
+    --panel:#131618;
+    --text:#ffffff;         /* full white for primary content */
+    --muted:#bdbcb6;        /* softer secondary */
+    --accent:#efece6;       /* very subtle warm accent (off-white) */
+    --glass: rgba(255,255,255,0.03);
+    --card-shadow: rgba(0,0,0,0.65);
+    --radius:14px;
+  }
+
+/* === Light theme variables (applique à TOUTE la page) === */
+html.theme-light{
+  --bg: #ffffff;
+  --panel: #f7f7f8;
+  --text: #111111;
+  --muted: #444444;
+  --accent: #0f1213;       /* garde du contraste */
+  --glass: rgba(0,0,0,0.03);
+  --card-shadow: rgba(0,0,0,0.08);
+  /* bordures plus douces en clair */
+}
+
+
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; font-family:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale; line-height:1.6; overflow-x:hidden;
+  }
+  a{color:var(--text); text-decoration:none}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+ /* ---------- HEADER (ancien style neutralisé) ---------- */
+/* On neutralise l’ancien header full-width proprement */
+ /* 
+header {
+  position:fixed; inset:0 0 auto 0; height:72px; display:flex; align-items:center;
+  justify-content:space-between; padding:0 28px; z-index:1200;
+  background: linear-gradient(180deg, rgba(15,18,19,0.6), rgba(15,18,19,0.25));
+  backdrop-filter: blur(6px); border-bottom:1px solid rgba(255,255,255,0.02);
+  transition:transform .22s ease, background .22s ease;
+}
+*/
+header.hidden { transform:none !important; } /* ne jamais se cacher */
+
+
+
+ /* --- NAV FLOATING CAPSULE --- */
+.nav-floating {
+  position: fixed;
+  top: 15px; left: 0; right: 0;
+  z-index: 5000; /* au-dessus de tout */
+}
+
+.nav-shell {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  position: relative;
+  width: calc(100% - 24px);  /* marges sur les côtés */
+  max-width: 1400px;
+  margin: 0 auto;
+
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between;
+  gap: 16px;
+
+  height: 72px;             /* hauteur fixe */
+  padding: 0 22px;          /* uniquement horizontal */
+  border-radius: 12px;
+
+  background: rgba(15,18,19,0.40);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.02);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.45);
+}
+
+/* --- LOGO --- */
+.logo-img {
+  height: 128px;   /* ✅ contrôle la taille du logo */
+  width: auto;
+  display: block;
+}
+
+/* --- NAV LINKS --- */
+.nav-links { display:flex; align-items:center; gap:16px; }
+
+.nav-links a,
+.nav-links .linkish {
+  color: var(--muted);
+  font-weight: 600; font-size: 14px;
+  background: none; border: 0; cursor: pointer;
+  padding: 8px 10px; border-radius: 10px;
+}
+.nav-links a:hover,
+.nav-links .linkish:hover { color: var(--text); }
+
+/* --- HAMBURGER MENU --- */
+.nav-toggle {
+  display: none;
+  background: transparent; border: 0; color: var(--text);
+  font-size: 20px; padding: 6px 8px; border-radius: 10px; cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  /* --- NAV pleine largeur --- */
+  .nav-floating {
+    top: 0;            
+    left: 0;
+    right: 0;
+  }
+
+  .nav-shell {
+    width: 100%;       
+    max-width: none;   
+    border-radius: 0;  
+    margin: 0;
+    height: 64px;      /* ajuste la hauteur */
+    padding: 0 14px;   /* padding horizontal */
+    background: rgba(15,18,19,0.40);
+    backdrop-filter: blur(6px);
+    border: none;      
+    box-shadow: none;  
+  }
+
+  /* --- Logo réduit --- */
+  .logo-img {
+    max-height: 100px; /* ici tu ajustes la taille du logo mobile */
+  }
+
+  /* --- Menu déroulant --- */
+  .nav-links {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0; left: 0;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    padding: 10px;
+    background: rgba(15,18,19,0.92);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 0 0 10px 10px; /* petit arrondi bas si tu veux */
+    box-shadow: 0 14px 34px rgba(0,0,0,0.55);
+  }
+
+  .nav-toggle { display: inline-flex; }
+}
+
+@media (max-width: 600px) {
+  .nav-shell { height: 56px; }
+  .logo-img { max-height: 100px; }
+}
+
+
+/* === HAMBURGER (bouts carrés) + morph en X === */
+.nav-toggle{
+  display:inline-flex;
+  flex-direction:column; justify-content:center; align-items:center;
+  gap:6px;
+  width:40px; height:40px;
+  background:transparent; border:0; padding:0; cursor:pointer;
+}
+.nav-toggle .bar{
+  width:22px; height:2px; background:var(--text);
+  border-radius:0;                 /* bouts carrés */
+  transition:transform .22s ease, opacity .18s ease;
+}
+
+
+/* mobile/tablette = plein écran visuel (optionnel : panneau 100%) */
+@media (max-width: 600px){
+  .overlay-panel{ width:100%; border-right:none; }
+}
+
+ /* ---------- HERO / VANTA ---------- */
+#hero{
+  position:relative;
+  min-height:92vh;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+}
+#vanta-bg{
+  position:absolute; inset:0; z-index:0; pointer-events:none;
+}
+/* ✅ Restaure la grille et les espacements élégants */
+.hero-inner{
+  position:relative; z-index:10;
+  width:100%; max-width:1200px; margin:0 auto;
+  padding:120px 28px 80px 28px;
+  display:grid;
+  grid-template-columns:1fr 420px;
+  gap:34px; align-items:center;
+}
+ 
+
+  .hero-copy { padding-right:10px; }
+  .eyebrow { color:var(--muted); font-weight:700; letter-spacing:1px; text-transform:uppercase; font-size:12px; margin-bottom:12px }
+  h1.main {
+    font-family:"Space Mono",monospace; font-size:48px; line-height:1.02; margin:0 0 18px 0; color:var(--text);
+    transition: transform .12s linear;
+    will-change: transform, opacity;
+  }
+  p.lead { color:var(--text); font-size:18px; max-width:68ch; margin-bottom:18px }
+
+  /* Typewriter pour le titre */
+  h1.main.typing {
+    white-space: nowrap;             /* évite les retours pendant l'anim */
+  }
+  h1.main.typing::after {
+    content: "";
+    display: inline-block;
+    width: 2px;
+    height: 0.9em;
+    margin-left: 6px;
+    background: currentColor;        /* s’adapte au thème */
+    opacity: 0.85;
+    animation: caret-blink 1s steps(1, end) infinite;
+    vertical-align: -0.1em;
+  }
+  @keyframes caret-blink {
+    50% { opacity: 0; }
+  }
+
+  /* Réserve la hauteur du titre pour 1 ligne */
+  h1.main {
+    min-height: 1.1em;   /* garde l'espace de la ligne, même quand vide */
+  }
+
+  /* Pendant la frappe: pas de retour à la ligne => pas de reflow horizontal */
+  h1.main.typing {
+    white-space: nowrap;
+  }
+
+  h1.main.typing {
+    position: relative;
+  }
+  h1.main.typing::after {
+    position: absolute;
+    left: calc(100% + 6px);  /* en dehors du flux */
+    top: 0.08em;
+  }
+
+
+
+
+  /* CTA row — EXACT three CTAs requested */
+  .cta-row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-top:12px }
+  /* pill buttons (Starcloud-like) */
+  .btn {
+    display:inline-flex; align-items:center; gap:10px;
+    border-radius:999px; padding:12px 20px; cursor:pointer; font-weight:700;
+    font-size:15px; color:var(--text); border:1px solid rgba(255,255,255,0.06);
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+    transition: transform .14s ease, box-shadow .14s ease, background .14s ease;
+  }
+  .btn:active{ transform: translateY(1px) scale(.997) }
+  .btn-large { padding:14px 26px; font-size:16px }
+  .btn.secondary { background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.06) }
+  .btn.primary { background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03)); color:var(--text) }
+  .btn:hover { transform: translateY(-3px); box-shadow: 0 18px 48px rgba(0,0,0,0.7) }
+
+/* Boutons : mappe aussi .btn-primary / .btn-secondary */
+.btn-primary{ 
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03)); 
+  color: var(--text);
+  border:1px solid rgba(255,255,255,0.06);
+}
+.btn-secondary{
+  background:transparent; 
+  color:var(--muted); 
+  border:1px solid rgba(255,255,255,0.02);
+}
+
+
+  /* "Read manifesto -->" highlighted phrase */
+  .manifesto-link {
+    margin-top:14px; display:inline-flex; align-items:center; gap:10px; color:var(--accent); cursor:pointer;
+    font-weight:700; text-decoration:none; background:rgba(255,255,255,0.02); padding:8px 12px; border-radius:10px;
+    border:1px solid rgba(255,255,255,0.02);
+  }
+  .manifesto-link .arrow { transform:translateX(0); transition:transform .18s; }
+  .manifesto-link:hover .arrow { transform:translateX(6px) }
+
+  /* hero-side card (manifesto teaser & waitlist trigger) */
+  .hero-side {
+    background: linear-gradient(180deg, rgba(255,255,255,0.016), rgba(255,255,255,0.01));
+    border:1px solid rgba(255,255,255,0.03);
+    padding:22px; border-radius:var(--radius);
+    box-shadow: 0 12px 40px var(--card-shadow); backdrop-filter: blur(6px);
+  }
+  .hero-side h4 { margin:0 0 10px 0; color:var(--text) }
+  .hero-side p { color:var(--muted); font-size:14px; margin-bottom:14px }
+
+  /* remove inline waitlist; only a small trigger button in side card and modal handles input */
+  .hero-side .small-btn { display:inline-block; padding:10px 14px; border-radius:12px; background:transparent; border:1px solid rgba(255,255,255,0.04); color:var(--text); font-weight:700; cursor:pointer }
+
+  /* --------- SECTIONS (content) ---------- */
+  .section { max-width:1100px; margin:0 auto; padding:72px 28px; position:relative }
+  .section h2 { font-size:28px; color:var(--text); margin-bottom:14px }
+  .lead-small { color:var(--text); max-width:72ch; font-size:16px; margin-bottom:12px }
+
+  .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:28px; align-items:start }
+  .card { background:linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.008)); padding:20px; border-radius:12px; border:1px solid rgba(255,255,255,0.02); box-shadow:0 12px 36px rgba(0,0,0,0.6) }
+  .card h3 { margin:0 0 8px 0; color:var(--text) }
+  .card p { color:var(--muted); margin:0 }
+
+  /* blog with categories filter */
+  .tabs { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:18px }
+  .tab { padding:8px 12px; border-radius:999px; background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.02); cursor:pointer; font-weight:600 }
+  .tab.active { background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); color:var(--text) }
+
+  .blog-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; margin-top:12px }
+  .post { padding:18px; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.006)); border:1px solid rgba(255,255,255,0.02); transition:transform .2s ease, box-shadow .2s; cursor:pointer }
+  .post:hover { transform: translateY(-6px); box-shadow: 0 18px 44px rgba(0,0,0,0.65) }
+  .post h4 { margin:0 0 8px 0; color:var(--text) }
+  .post p { margin:0; color:var(--muted) }
+
+  /* closing CTA */
+  .closing { padding:60px 28px; text-align:center; background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.006)); border-top:1px solid rgba(255,255,255,0.02) }
+  .closing p { color:var(--text) }
+  .closing .lead-small {
+  text-align: center;
+  margin: 0 auto;        /* centre le bloc si max-width est défini */
+}
+
+
+
+  /* FOOTER */
+footer {
+  padding: 36px 28px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  text-align: center;
+}
+
+footer .social-links ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px;
+  display: flex;
+  justify-content: center; /* centre horizontal */
+  align-items: center;
+  gap: 20px;
+}
+
+footer .social-links a {
+  color: var(--muted);
+  font-size: 1.4rem; /* taille des icônes */
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+footer .social-links a:hover {
+  color: #fff;          /* icône devient blanche au hover */
+  transform: scale(1.1); /* petit zoom subtil */
+}
+
+footer .copyright {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+footer .social-links ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;       /* centre le UL */
+  display: flex;
+  justify-content: center; /* centre horizontalement */
+  align-items: center;     /* centre verticalement */
+  gap: 20px;
+  max-width: fit-content;  /* évite que le UL s’étire */
+}
+
+
+
+  /* modals */
+  .modal { display:none; position:fixed; inset:0; z-index:2000; background:rgba(0,0,0,0.7); justify-content:center; align-items:center; padding:20px }
+  .modal.active { display:flex }
+  .modal-panel { width:100%; max-width:520px; background:var(--panel); border-radius:12px; padding:24px; border:1px solid rgba(255,255,255,0.03); box-shadow:0 22px 60px rgba(0,0,0,0.75) }
+  label{ display:block; color:var(--muted); font-size:13px; margin-bottom:6px }
+  input, textarea, select { width:100%; padding:12px 14px; border-radius:10px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.02); color:var(--text); font-size:15px; outline:none; }
+  .select-wrap { position:relative }
+  .select-wrap::after { content: "▾"; position:absolute; right:12px; top:50%; transform:translateY(-50%); color:var(--muted); pointer-events:none; font-size:14px }
+
+/* Le <select> lui-même */
+.select-wrap select{
+  appearance:none; -webkit-appearance:none; -moz-appearance:none;
+  width:100%;
+  padding:12px 36px 12px 25px;    /* place pour la flèche */
+  border-radius:10px;
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.06);
+  color:var(--text);
+  font-size:15px;
+  outline:none;
+}
+
+/* Sur certains navigateurs, il faut forcer le style des options */
+.select-wrap select option{
+  background: #0f1213;   /* fond sombre */
+  color: #ffffff;        /* texte blanc */
+}
+
+/* focus/hover cohérents */
+.select-wrap select:focus{
+  border-color: rgba(255,255,255,0.12);
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.08);
+}
+
+.hint{
+  display:block;
+  margin-top:6px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* feedback visuel natif, discret */
+input:invalid, textarea:invalid, select:invalid{
+  outline: none;
+  
+}
+input:valid, textarea:valid, select:valid{
+  border-color: rgba(255,255,255,0.10);
+  box-shadow: none;
+}
+
+
+ /* Reveal: visible par défaut (aucun JS requis) */
+.reveal { opacity: 1; transform: none; }
+
+/* N’activer l’animation que si le JS a confirmé que l’IO est prêt */
+.io-ready .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .6s ease, transform .6s ease;
+  will-change: opacity, transform;
+}
+.io-ready .reveal.in-view { opacity: 1; transform: translateY(0); }
+.io-ready .reveal.out-view { opacity: 0; transform: translateY(-12px); }
+
+
+
+  /* responsive */
+  @media (max-width:980px){
+    .hero-inner{ grid-template-columns:1fr; padding:90px 20px 60px 20px }
+    .hero-side{ order:2; margin-top:18px }
+    .grid-2{ grid-template-columns:1fr }
+    .blog-grid{ grid-template-columns:1fr }
+  }
+  @media (max-width:560px){
+    .logo .term{ font-size:18px } .logo .labs{ display:none }
+    header{ padding:8px 12px }
+    h1.main{ font-size:32px }
+  }
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(15,18,19,0.9);
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  z-index: 9999;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Assure la nav devant le contenu normal */
+.nav-floating { z-index: 5000; }
+
+/* Assure les modales DEVANT la nav (et donc cliquables/visibles) */
+.modal { z-index: 7000; }
+
+
+/* =======================
+   FULLSCREEN OVERLAY MENU
+   ======================= */
+
+/* garde la barre/logo au-dessus */
+.nav-floating .nav-shell { position: relative; z-index: 9000; }
+
+/* hauteur barre (desktop) – ajuste si besoin */
+:root { --nav-h: 72px; }
+
+/* conteneur caché par défaut */
+.nav-overlay{
+  position: fixed; inset: 0;
+  z-index: 5000; /* sous le logo */
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity .28s ease, visibility 0s linear .28s;
+}
+
+/* fond + layout */
+.overlay-surface{
+  position: absolute; inset: 0;
+  background: var(--bg);
+  /* léger dégradé vers le bas pour la profondeur */
+  background-image: radial-gradient(1200px 600px at 25% 10%, rgba(255,255,255,0.06), transparent 60%);
+  padding: calc(var(--nav-h) + 24px) clamp(20px, 6vw, 80px) 28px; /* laisse le logo visible */
+  display: grid;
+  grid-template-rows: 1fr auto; /* menu en haut, footer en bas */
+  gap: 24px;
+  overflow: hidden;
+}
+
+/* liste à gauche, “page-like” */
+.overlay-nav{
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 640px;
+}
+
+/* item style */
+.overlay-link{
+  --slide: 10px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 14px;
+  width: 100%;
+  padding: 12px 6px;
+  background: none; border: 0; cursor: pointer;
+  color: var(--text); text-decoration: none;
+  font-weight: 700; font-size: clamp(20px, 2.2vw, 28px);
+  transform: translateY(var(--slide)); opacity: 0;
+  transition: transform .35s ease, opacity .35s ease;
+}
+.overlay-link i{ opacity: .6; }
+.overlay-link:hover i{ opacity: 1; transform: translateX(2px); transition: transform .2s ease; }
+.overlay-link.as-button{ text-align: left; }
+
+
+/* footer dans l’overlay */
+.overlay-footer{
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; opacity: 0; transform: translateY(8px);
+  transition: transform .35s ease .2s, opacity .35s ease .2s;
+}
+
+.overlay-social{ display: flex; gap: 14px; }
+.overlay-social a{ color: var(--muted); font-size: 1.2rem; }
+.overlay-social a:hover{ color: var(--text); }
+
+/* état ouvert */
+#site-header.open .nav-overlay{
+  opacity: 1; visibility: visible; pointer-events: auto;
+  transition: opacity .28s ease;
+}
+
+
+
+/* Mobile / tablette : ajuste la hauteur de nav si besoin */
+@media (max-width: 900px){
+  :root { --nav-h: 64px; }
+}
+@media (max-width: 600px){
+  :root { --nav-h: 56px; }
+}
+
+/* ====== OVERLAY (version finale, anti-conflit) ====== */
+
+/* nav devant, overlay juste en dessous (pour laisser voir le logo) */
+.nav-floating .nav-shell { position: relative; z-index: 9500; }
+
+:root { --nav-h: 72px; }
+@media (max-width:900px){ :root{ --nav-h:64px; } }
+@media (max-width:600px){ :root{ --nav-h:56px; } }
+
+/* Conteneur plein écran caché */
+.nav-overlay{
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9000 !important; /* sous le logo (9500) */
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity .28s ease, visibility 0s linear .28s;
+}
+
+/* Ouvert quand body.menu-open */
+body.menu-open .nav-overlay{
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transition: opacity .28s ease;
+}
+
+/* Surface pleine page */
+.overlay-surface{
+  position: absolute !important; inset: 0 !important;
+  background: var(--bg);
+  background-image: radial-gradient(1200px 600px at 25% 10%, rgba(255,255,255,0.06), transparent 60%);
+  padding: calc(var(--nav-h) + 24px) clamp(20px, 6vw, 80px) 28px;
+  display: grid; grid-template-rows: 1fr auto;
+  gap: 24px; overflow: hidden;
+}
+
+/* Liste des liens */
+.overlay-nav{
+  align-self: start;
+  display: flex; flex-direction: column; gap: 10px;
+  max-width: 640px;
+}
+.overlay-link{
+  --slide: 10px;
+  display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  width: 100%; padding: 12px 6px;
+  background: none; border: 0; cursor: pointer;
+  color: var(--text); text-decoration: none;
+  font-weight: 700; font-size: clamp(20px, 2.2vw, 28px);
+  transform: translateY(var(--slide)); opacity: 0;
+  transition: transform .35s ease, opacity .35s ease;
+}
+.overlay-link i{ opacity: .6; }
+.overlay-link:hover i{ opacity: 1; transform: translateX(2px); transition: transform .2s ease; }
+.overlay-link.as-button{ text-align: left; }
+
+/* Cascade d’apparition */
+body.menu-open .overlay-link{ opacity: 1; transform: translateY(0); }
+body.menu-open .overlay-link:nth-child(1){ transition-delay: .05s; }
+body.menu-open .overlay-link:nth-child(2){ transition-delay: .1s; }
+body.menu-open .overlay-link:nth-child(3){ transition-delay: .15s; }
+body.menu-open .overlay-link:nth-child(4){ transition-delay: .2s; }
+body.menu-open .overlay-link:nth-child(5){ transition-delay: .25s; }
+
+/* Footer overlay */
+.overlay-footer{
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  opacity: 0; transform: translateY(8px);
+  transition: transform .35s ease .2s, opacity .35s ease .2s;
+}
+body.menu-open .overlay-footer{ opacity: 1; transform: translateY(0); }
+
+/* Burger 3 barres (bouts carrés) + morph en X */
+.nav-toggle{
+  display:inline-flex; flex-direction:column; justify-content:center; align-items:center;
+  gap:6px; width:40px; height:40px; background:transparent; border:0; padding:0; cursor:pointer;
+}
+.nav-toggle .bar{
+  width:22px; height:2px; background:var(--text);
+  border-radius:0; transition:transform .22s ease, opacity .18s ease;
+}
+body.menu-open .nav-toggle .bar:nth-child(1){ transform: translateY(8px) rotate(45deg); }
+body.menu-open .nav-toggle .bar:nth-child(2){ opacity:0; }
+body.menu-open .nav-toggle .bar:nth-child(3){ transform: translateY(-8px) rotate(-45deg); }
+
+/* Cache le petit menu horizontal sous l’overlay quand ouvert */
+body.menu-open #primary-nav,
+body.menu-open .nav-links{ visibility: hidden; }
+
+
+/* Bouton X pour fermer l'overlay (traits carrés) */
+.overlay-close{
+  position:absolute;
+  /* place-le visuellement en haut droite de l’overlay */
+  top: 12px;                 /* ajuste si besoin */
+  right: clamp(16px, 6vw, 40px);
+  width:40px; height:40px;
+  background:transparent; border:0; padding:0; cursor:pointer;
+  display:inline-flex; align-items:center; justify-content:center;
+  z-index: 1;                /* au-dessus du contenu overlay */
+}
+.overlay-close::before,
+.overlay-close::after{
+  content:"";
+  position:absolute;
+  width:22px; height:2px;    /* traits fins */
+  background:var(--text);
+  border-radius:0;           /* bouts carrés */
+  transform-origin:center;
+}
+.overlay-close::before{ transform: rotate(45deg); }
+.overlay-close::after { transform: rotate(-45deg); }
+
+.overlay-close:hover::before,
+.overlay-close:hover::after{ opacity:0.9; }
+
+/* Option: léger recul sur très petits écrans */
+@media (max-width:600px){
+  .overlay-close{ top: 10px; right:16px; }
+}
+
+/* L’overlay doit passer au-dessus du site pour être visible */
+.nav-overlay{
+  position: fixed; inset: 0;
+  z-index: 9000;                /* plus haut que la nav */
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity .25s ease, visibility 0s linear .25s;
+}
+#site-header.open .nav-overlay{
+  opacity: 1; visibility: visible; pointer-events: auto;
+  transition: opacity .25s ease;
+}
+
+/* Bouton X */
+.overlay-close{
+  position: absolute;
+  top: 16px;
+  right: clamp(20px, 6vw, 80px);
+  width: 38px; height: 38px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.14);
+  color: var(--text);
+  font-size: 22px; line-height: 1;
+  border-radius: 8px;
+  cursor: pointer;
+  opacity: .9;
+  z-index: 1;                  /* au-dessus du contenu overlay */
+  transition: transform .15s ease, opacity .15s ease, background .15s ease;
+}
+.overlay-close:hover{ opacity: 1; transform: translateY(-1px); background: rgba(255,255,255,0.05); }
+
+/* Modals au-dessus du menu overlay */
+.modal { z-index: 12000; }
+
+/* ✅ Mobile: nav vraiment pleine largeur (garde le même style visuel) */
+@media (max-width: 600px){
+  header#site-header.nav-floating{
+    padding: 0 !important;   /* neutralise le header{padding:8px 12px} */
+    top: 0 !important;
+    .logo-img {
+      max-height: 110px;
+    }
+  }
+  header#site-header.nav-floating > .nav-shell{
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;    /* pas d'auto-centering */
+    /* on NE change pas: background, border, box-shadow, border-radius */
+  }
+}
+
+
+
+
+.back-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:40px; height:40px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,0.14);
+  background:transparent;
+  color:var(--text);
+  cursor:pointer;
+  font-size:16px;
+  line-height:1;
+  transition:opacity .15s ease, transform .15s ease, background .15s ease;
+}
+
+/* No heavy hover effects, just a tiny feedback */
+.back-btn:hover{ opacity: .95; transform: translateY(-1px); }
+.back-btn:active{ transform: translateY(0); }
+
+.mf-meta {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+
+
+
+body.theme-light .theme-toggle{
+  border-color: rgba(0,0,0,0.15);
+}
+
+
+
+body.theme-light .back-btn{ border-color: rgba(0,0,0,0.15); }
+
+
+
+.back-btn::before{ top: 18px; transform: rotate(0deg); }         /* hampe horizontale */
+.back-btn::after{  top: 18px; transform: rotate(180deg); }        /* on double pour épaisseur uniforme */
+.back-btn:after,
+.back-btn:before{
+  box-shadow: none;
+}
+/* pointe de flèche */
+.back-btn::marker{ display:none; }
+.back-btn:focus{ outline: none; }
+.back-btn:focus-visible{
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.12);
+}
+
+
+.toggle-ios .track{
+  position: relative;
+  width: 58px; height: 30px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.18);
+  display: inline-block;
+}
+body.theme-light .toggle-ios .track{
+  background: rgba(0,0,0,0.06);
+  border-color: rgba(0,0,0,0.15);
+}
+.toggle-ios .thumb{
+  position: absolute; top: 3px; left: 3px;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: #fff;
+  transition: transform .22s ease;
+}
+body.theme-light .toggle-ios .thumb{
+  transform: translateX(28px);
+  background: #111;
+}
+.toggle-ios .icon{
+  position: absolute; top: 50%; transform: translateY(-50%);
+  font-size: 12px; line-height: 1;
+  opacity: .85; user-select: none; pointer-events: none;
+}
+.toggle-ios .icon.sun{  left: 8px;  color: #fff; }
+.toggle-ios .icon.moon{ right: 8px; color: #fff; }
+body.theme-light .toggle-ios .icon.sun{  color: #111; }
+body.theme-light .toggle-ios .icon.moon{ color: #111; }
+
+
+.article-topbar{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: 800px;      /* même que <main> */
+  padding: 0 24px;       /* même que <main> */
+  margin: 24px auto 18px;/* centré + espace au-dessus du titre */
+}
+
+/* bouton retour : rond, sans ombre, discret */
+.back-btn{
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: transparent; color: var(--text); cursor: pointer;
+}
+html.theme-light .back-btn{ border-color: rgba(0,0,0,0.15); color: #111; }
+.back-btn svg{ display:block; }
+
+/* Barre au-dessus du titre : même largeur que le contenu */
+.article-topbar{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: 800px;      /* même que <main> */
+  padding: 0 24px;       /* même que <main> */
+  margin: 24px auto 18px;/* centré + espace au-dessus du titre */
+}
+
+/* Toggle iPhone (restant dans la barre, pas fixé) */
+.toggle-ios{ border:0; background:transparent; padding:0; cursor:pointer; }
+.toggle-ios .track{
+  position: relative; width: 56px; height: 30px; border-radius: 999px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.18);
+  display: inline-block;
+}
+html.theme-light .toggle-ios .track{
+  background: rgba(0,0,0,0.06);
+  border-color: rgba(0,0,0,0.15);
+}
+.toggle-ios .sun,.toggle-ios .moon{
+  position: absolute; top: 50%; transform: translateY(-50%); font-size: 12px; opacity: .85;
+  user-select: none; pointer-events: none;
+}
+.toggle-ios .sun{ left: 8px; color: #fff; }
+.toggle-ios .moon{ right: 8px; color: #fff; }
+html.theme-light .toggle-ios .sun{  color: #111; }
+html.theme-light .toggle-ios .moon{ color: #111; }
+
+.toggle-ios .thumb{
+  position: absolute; top: 3px; left: 3px;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: #fff;
+  transition: transform .22s ease, background .22s ease;
+}
+html.theme-light .toggle-ios .thumb{ transform: translateX(26px); background: #111; }
+
+/* Listes sobres avec chevron */
+.list-chevrons{
+  list-style: none;
+  padding-left: 0;
+  margin: 10px 0 12px;
+}
+.list-chevrons li{
+  position: relative;
+  padding-left: 22px;
+  margin: 6px 0;
+  color: var(--text);
+}
+.list-chevrons li::before{
+  content: "›";
+  position: absolute;
+  left: 0; top: 0;
+  line-height: 1.2;
+  color: var(--muted);
+  font-weight: 700;
+  opacity: .9;
+}
+
+.sep{
+  height: 1px;
+  border: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+  margin: 24px 0;
+}
+
+/* =========================
+   Light mode — form fixes
+   (compatible html/body.theme-light)
+   ========================= */
+html.theme-light,
+body.theme-light {
+  --bg: #f7f8f9;
+  --panel: #ffffff;
+  --text: #111111;
+  --muted: #444444;
+}
+
+/* champs : bord visible, fond léger, texte sombre */
+html.theme-light input,
+html.theme-light textarea,
+html.theme-light select,
+body.theme-light input,
+body.theme-light textarea,
+body.theme-light select {
+  background: rgba(0,0,0,0.03);
+  border: 1px solid rgba(0,0,0,0.22);
+  color: #111;
+}
+
+/* placeholder lisible */
+html.theme-light input::placeholder,
+html.theme-light textarea::placeholder,
+body.theme-light input::placeholder,
+body.theme-light textarea::placeholder {
+  color: #666;
+}
+
+/* focus clair cohérent */
+html.theme-light input:focus,
+html.theme-light textarea:focus,
+html.theme-light select:focus,
+body.theme-light input:focus,
+body.theme-light textarea:focus,
+body.theme-light select:focus {
+  border-color: rgba(0,0,0,0.40);
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.08);
+  outline: none;
+}
+
+/* labels / hints plus lisibles */
+html.theme-light label,
+body.theme-light label {
+  color: #555;
+}
+html.theme-light .hint,
+body.theme-light .hint {
+  color: #666;
+}
+
+/* select options : fond clair, texte sombre (certains navigateurs) */
+html.theme-light .select-wrap select option,
+body.theme-light .select-wrap select option {
+  background: #ffffff;
+  color: #111111;
+}
+
+/* panneau de modale en light */
+html.theme-light .modal-panel,
+body.theme-light .modal-panel {
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+/* overlay de modale : conserve l’obscurcissement */
+html.theme-light .modal,
+body.theme-light .modal {
+  background: rgba(0,0,0,0.55);
+}
+
+/* ============= Modal enter animation (slide from left) ============= */
+
+/* 1) Fond: passe de transparent -> sombre quand .active arrive */
+.modal{
+  /* existant: position/flex/z-index/etc. restent inchangés */
+  background: rgba(0,0,0,0);           /* transparent au repos */
+  transition: background .28s ease;    /* fondu du backdrop */
+}
+.modal.active{
+  background: rgba(0,0,0,0.70);        /* même intensité que tu avais */
+}
+
+/* Si light mode, on applique l’intensité sur l’état actif aussi */
+html.theme-light .modal.active,
+body.theme-light .modal.active{
+  background: rgba(0,0,0,0.55);
+}
+
+/* 2) Panneau: slide + fade quand on ouvre */
+.modal-panel{
+  transform: translateX(-24px);
+  opacity: 0;
+  transition: transform .32s ease, opacity .32s ease;
+  will-change: transform, opacity;
+}
+.modal.active .modal-panel{
+  transform: none;   /* revient à sa place */
+  opacity: 1;
+}
+
+/* 3) Accessibilité: réduit/désactive les animations si demandé */
+@media (prefers-reduced-motion: reduce){
+  .modal, .modal-panel{
+    transition: none !important;
+  }
+}
+
+/* Réserve l’espace avec un "ghost" et affiche le texte animé par-dessus */
+.typewrap { position: relative; }
+.typewrap .ghost {
+  visibility: hidden;           /* réserve taille/retours à la ligne, mais invisible */
+  pointer-events: none;
+}
+.typewrap .typewriter {
+  position: absolute;
+  inset: 0 auto auto 0;         /* top/left 0, laisse le wrapping naturel */
+  border-right: 0.12em solid var(--accent); /* curseur discret */
+  white-space: normal;          /* ⚠️ surtout pas nowrap */
+  overflow: hidden;
+}
+
+/* Option: limite un peu la largeur pour un bel enroulé du titre */
+.hero-copy .main { max-width: 22ch; }
+
+/* === Kill the typewriter cursor (no-caret mode) === */
+.no-caret .cursor,
+.no-caret .typed-cursor { 
+  display: none !important;            /* span-based cursors */
+}
+
+.no-caret .main::after,
+.no-caret .typewriter::after,
+.no-caret [data-typing]::after {
+  content: none !important;            /* pseudo-element cursors */
+}
+
+.no-caret .main,
+.no-caret .typewriter,
+.no-caret [data-typing] {
+  border-right: 0 !important;          /* border caret style */
+  caret-color: transparent !important; /* just in case */
+}
+
+/* ==============================
+   Responsive buttons (all pages)
+   ============================== */
+
+/* Base buttons */
+.btn{
+  /* taille de texte et padding qui s’adaptent à l’écran */
+  font-size: clamp(14px, 1.9vw, 16px);
+  padding: clamp(10px, 1.6vw, 12px) clamp(14px, 2.6vw, 20px);
+  min-height: 44px;                /* zone tactile recommandée */
+}
+
+/* Variantes */
+.btn-large{
+  font-size: clamp(15px, 2.4vw, 18px);
+  padding: clamp(12px, 2.2vw, 14px) clamp(18px, 3.2vw, 26px);
+  min-height: 48px;
+}
+.small-btn{
+  font-size: clamp(13px, 1.8vw, 14px);
+  padding: clamp(8px, 1.4vw, 10px) clamp(10px, 2vw, 14px);
+  min-height: 40px;
+}
+
+/* Sur très petits écrans: les gros CTA passent en pleine largeur */
+@media (max-width: 380px){
+  .cta-row .btn{ 
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+}
+
+/* Empêche l’étirement horizontal excessif des CTA dans les grilles/tuiles */
+.post .btn,
+.card .btn{
+  max-width: 100%;
+}
+
+/* ==============================
+   Social icons — footer & overlay
+   ============================== */
+
+/* Footer */
+footer .social-links a{
+  /* taille d’icône responsive */
+  font-size: clamp(18px, 5.2vw, 24px);
+  /* zone tactile confortable */
+  width: clamp(40px, 10vw, 48px);
+  height: clamp(40px, 10vw, 48px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px; /* discret */
+}
+
+/* Espace entre icônes responsive */
+footer .social-links ul{
+  gap: clamp(12px, 4vw, 20px);
+}
+
+/* Overlay (menu plein écran) */
+.overlay-social a{
+  font-size: clamp(18px, 5.2vw, 24px);
+  width: clamp(40px, 10vw, 48px);
+  height: clamp(40px, 10vw, 48px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+.overlay-footer{
+  gap: clamp(10px, 3.5vw, 16px);
+}
+
+/* ==============================
+   Misc: meilleures cibles tactiles
+   ============================== */
+
+/* Burger */
+.nav-toggle{
+  width: clamp(38px, 9vw, 44px);
+  height: clamp(38px, 9vw, 44px);
+}
+
+/* Liens du menu overlay: déjà en clamp() — on augmente légèrement le padding sur mobile */
+@media (max-width: 480px){
+  .overlay-link{
+    padding: 14px 8px;
+  }
+}
+
+/* --- FIX CTA layout (retour au comportement d'avant) --- */
+.cta-row{ display:flex; flex-wrap:wrap; gap:12px; }
+.cta-row .btn{ flex:0 0 auto; }            /* pas de full-width */
+@media (max-width:380px){
+  .cta-row{ justify-content:flex-start; }  /* pas de centrage forcé */
+  .cta-row .btn{ flex:0 0 auto; }
+}
+
+/* --- Footer socials: tailles raisonnables + pas de "gros carrés" --- */
+footer .social-links ul{
+  gap:14px;                /* espace normal */
+  flex-wrap:wrap;
+  max-width:fit-content;   /* garde le bloc compact */
+  margin:0 auto;
+}
+footer .social-links a{
+  font-size:22px;          /* ≈ d'avant mais responsive */
+  width:auto; height:auto; /* pas de largeur fixe qui étire */
+  padding:6px;             /* cible tactile légère */
+  display:inline-flex; align-items:center; justify-content:center;
+}
+
+/* --- Overlay socials (menu): idem, compact --- */
+.overlay-social{ gap:14px; }
+.overlay-social a{
+  font-size:22px;
+  width:auto; height:auto;
+  padding:6px;
+  display:inline-flex; align-items:center; justify-content:center;
+}
+
+/* état fermé (discret) */
+.overlay-footer{
+  opacity:0; transform:translateY(8px);
+  transition:transform .3s ease .15s, opacity .3s ease .15s;
+}
+
+/* état ouvert (quel que soit le mécanisme) */
+#site-header.open .overlay-footer,
+body.menu-open .overlay-footer{
+  opacity:1; transform:translateY(0);
+}
+
+/* =========================
+   OVERLAY — MOBILE POLISH
+   ========================= */
+
+/* Fullscreen with modern viewport unit to avoid iOS address bar jumps */
+.nav-overlay{
+  min-height: 100dvh;
+}
+
+/* Give breathing room using safe-area insets on notched phones */
+.overlay-surface{
+  /* top | right | bottom | left */
+  padding: calc(var(--nav-h) + 24px)
+           max(20px, env(safe-area-inset-right) + 20px)
+           28px
+           max(20px, env(safe-area-inset-left) + 20px);
+}
+
+/* The list shouldn’t hug screen edges; give comfy click area */
+.overlay-nav{
+  max-width: 640px;
+  width: 100%;
+}
+
+/* More right padding so the arrow icon isn't glued to the edge */
+.overlay-link{
+  padding: 14px 16px;    /* was 12px 6px */
+  border-radius: 8px;    /* small touch radius */
+}
+
+/* Footer stays compact, never off-screen, and wraps nicely */
+.overlay-footer{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  row-gap: 10px;
+  padding-top: 8px;
+}
+
+/* Social icons: visible, compact, tappable */
+.overlay-social{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.overlay-social a{
+  font-size: 18px;                 /* readable but not huge */
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto; height: auto;
+  padding: 6px;
+  color: var(--muted);             /* same style as elsewhere */
+  text-decoration: none;
+}
+.overlay-social a:hover{ color: var(--text); }
+
+html.theme-light .overlay-social a{
+  color: #222;                     /* visible in light mode */
+}
+
+/* Make sure the footer appears in both open states you use */
+#site-header.open .overlay-footer,
+body.menu-open .overlay-footer{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Small phones: slightly tighten spacing but keep comfort */
+@media (max-width: 420px){
+  .overlay-link{ padding: 12px 14px; }
+  .overlay-social{ gap: 12px; }
+}
+
+:root { --mf-logo-h: 120px; }
+@media (max-width: 600px){
+  :root { --mf-logo-h: 100px; }
+}
+
+.manifesto-logo img{
+  height: var(--mf-logo-h);
+  width: auto;
+  display: block;
+}
+
+/* (Option) si un jour tu veux une taille différente en light:
+html.theme-light { --mf-logo-h: 120px; }
+*/
+
+
+/* (Option) si un jour tu veux une taille différente en light:
+html.theme-light { --mf-logo-h: 120px; }
+*/
+
+/* ===== Overlay scrollable & footer accessible ===== */
+
+/* le conteneur occupe tout l’écran */
+.nav-overlay{
+  position: fixed;
+  inset: 0;
+}
+
+/* surface qui scrolle en interne (iOS inclus) */
+.overlay-surface{
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: calc(var(--nav-h) + 24px) clamp(20px, 6vw, 80px) 28px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* la liste prend l’espace restant (et scrolle si besoin) */
+.overlay-nav{
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 640px;
+  padding-bottom: 24px; /* petit espace avant le footer */
+}
+
+/* footer “collant” en bas, visible après scroll */
+.overlay-footer{
+  position: sticky;
+  bottom: 0;
+  padding-top: 12px;
+  margin-top: 12px;
+  background: linear-gradient( to top, rgba(15,18,19,0.96), rgba(15,18,19,0.0) 60% );
+  backdrop-filter: blur(2px);
+}
+
+/* sur très petits écrans, resserre un peu les marges */
+@media (max-width: 420px){
+  .overlay-surface{
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+/* ===== Manifesto logos — tailles indépendantes ===== */
+#logo-dark  { display:block; height:120px; width:auto; }
+#logo-light { display:none;  height:110px; width:auto; }
+
+/* En thème clair → on affiche le logo clair */
+html.theme-light #logo-dark  { display:none; }
+html.theme-light #logo-light { display:block; }

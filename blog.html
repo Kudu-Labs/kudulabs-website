@@ -13,27 +13,7 @@
 
   gtag('config', 'G-E7RFKQ9YLM');
 </script>
-<title>Kudu Labs | Reimagine how intelligence is powered</title>
-<meta name="description" content="Kudu Labs — research-first systems to make AI radically more affordable and widely accessible." />
-
-<!-- Canonical URL -->
-<link rel="canonical" href="https://kudulabs.io/">
-
-<!-- Open Graph (Facebook, LinkedIn, WhatsApp, etc.) -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://kudulabs.io/">
-<meta property="og:title" content="Kudu Labs — Reimagine how intelligence is powered">
-<meta property="og:description" content="Research-first systems to make AI radically more affordable and widely accessible.">
-<meta property="og:image" content="https://kudulabs.io/assets/og-image.png"> <!-- ⚡ Mets une image 1200x630px -->
-
-<!-- Twitter Cards -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content="https://kudulabs.io/">
-<meta name="twitter:title" content="Kudu Labs — Reimagine how intelligence is powered">
-<meta name="twitter:description" content="Research-first systems to make AI radically more affordable and widely accessible.">
-<meta name="twitter:image" content="https://kudulabs.io/assets/og-image.png">
-
-
+<title>Kudu Labs Blog</title>
 <!-- Favicons -->
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
@@ -48,22 +28,16 @@
 <!-- Windows / theme -->
 <meta name="msapplication-TileColor" content="#0f1213">
 <meta name="theme-color" content="#0f1213">
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
-
-<!-- Couleur thème navigateur -->
-<meta name="theme-color" content="#0f1213">
-
-
 </head>
 <body>
 
 <!-- NAV (floating wide capsule) -->
 <header id="site-header" class="nav-floating" role="banner">
   <div class="nav-shell" role="navigation" aria-label="Primary">
-    <a class="logo" href="index.html#hero">
+<a class="logo" href="index.html#hero">
       <img src="assets/logo-full.png" alt="Kudu Labs Logo" class="logo-img">
     </a>
     
@@ -84,10 +58,9 @@
     <!-- bande top pour laisser le logo visible (calée par CSS via --nav-h) -->
     <nav class="overlay-nav" aria-label="Menu">
   <!-- Liens simples : ferment l’overlay puis naviguent -->
-  <a class="overlay-link" href="index.html">
-  <span>Home</span> <i class="fa-solid fa-arrow-right-long"></i>
-</a>
-
+  <a class="overlay-link" href="index.html#hero">
+        <span>Home</span> <i class="fa-solid fa-arrow-right-long"></i>
+      </a>
   <a class="overlay-link" href="manifesto.html"
      onclick="document.getElementById('site-header').classList.remove('open');
               document.getElementById('nav-overlay').setAttribute('aria-hidden','true');
@@ -140,116 +113,29 @@
 </div>
 
 
-<!-- HERO -->
-<section id="hero" aria-label="Hero area">
-  <div id="vanta-bg" aria-hidden="true"></div>
+<!-- BLOG CONTENT -->
+<section class="section reveal" data-reveal>
+  <h2>From Kudu Labs</h2>
+  <p class="lead-small">Announcements, research previews, and thoughts from the team.</p>
 
-  <div class="hero-inner">
-    <!-- LEFT: copy -->
-    <div class="hero-copy reveal" data-reveal>
-      <div class="eyebrow">Kudu Labs — stealth research</div>
-      <div class="typewrap">
-        <h1 class="main typewriter" id="hero-line"></h1>
-        <h1 class="main ghost" aria-hidden="true">Reimagine how intelligence is powered</h1>
-      </div>
-
-      <p class="lead">AI is limited by cost, concentration, and energy. We build software-first systems to reduce that cost so researchers, startups, and labs can pursue the boldest questions.</p>
-
-      <!-- EXACT CTA trio -->
-      <div class="cta-row">
-        <button class="btn btn-large btn-primary" onclick="openModal('waitlist')">Join waitlist</button>
-        <button class="btn btn-large btn-primary" onclick="openModal('join')">Join the founding team</button>
-        <button class="btn btn-large btn-primary" onclick="openModal('contact')">Contact us</button>
-      </div>
-
-      <!-- Read manifesto highlight (phrase with arrow) -->
-      <div style="margin-top:12px">
-        <a class="manifesto-link" onclick="document.getElementById('manifesto').scrollIntoView({behavior:'smooth'})">Read manifesto <span class="arrow">→</span></a>
-      </div>
-    </div>
-
-    <!-- RIGHT: manifesto preview card -->
-    <aside class="hero-side reveal" data-reveal>
-      <h4>Featured — Manifesto</h4>
-      <p>Our manifesto: why cost is the missing piece in progress, and how a new software model unlocks radically more experimentation and safety.</p>
-
-      <div style="height:12px"></div>
-      <a class="small-btn" href="manifesto.html">Read manifesto</a>
-      <div style="height:14px"></div>
-      <small style="color:var(--muted)">Research & collaboration — no product yet.</small>
-    </aside>
+  <div class="tabs" role="tablist" aria-label="Blog categories">
+    <button class="tab active" data-filter="all">All</button>
+    <button class="tab" data-filter="manifesto">Manifesto</button>
+    <button class="tab" data-filter="announcements">Announcements</button>
+    <button class="tab" data-filter="research">Research</button>
+    <button class="tab" data-filter="product">Product</button>
   </div>
-</section>
 
-<section class="section reveal" data-reveal>
-  <h2>The Problem</h2>
-  <p class="lead-small">AI’s greatest bottleneck isn’t creativity—it’s economics.</p>
-  <ul class="list-chevrons">
-    <li>Startups burn cash on GPUs instead of growth.</li>
-    <li>Researchers abandon experiments because budgets collapse.</li>
-    <li>Even giants face runaway training bills and chip shortages.</li>
-  </ul>
-  <p>When only the richest can afford to innovate, progress slows and breakthroughs stay locked away.</p>
-</section>
-
-<section class="section reveal" data-reveal>
-  <h2>Why Now</h2>
-  <p class="lead-small">The current model is unsustainable:</p>
-  <ul class="list-chevrons">
-    <li>Global chip shortages strain supply.</li>
-    <li>Training costs skyrocket year over year.</li>
-    <li>Energy demands reach political and environmental limits.</li>
-  </ul>
-  <p>At the same time, advances in distributed computing, orchestration, and resource sharing create a once-in-a-decade chance to flip the economics.</p>
-</section>
-
-<section class="section reveal" data-reveal>
-  <h2>Our Approach</h2>
-  <p class="lead-small">We’re not another cloud or GPU vendor. Kudu Labs builds software-first systems that:</p>
-  <ul class="list-chevrons">
-    <li>Capture demand and understand usage patterns.</li>
-    <li>Schedule workloads intelligently across secure, distributed networks.</li>
-    <li>Redistribute resources to cut marginal costs and unlock idle capacity.</li>
-  </ul>
-  <p>The result: compute that is cheaper, more efficient, and more accessible—without waiting for new hardware breakthroughs.</p>
-</section>
-
-<section class="section reveal" data-reveal>
-  <h2>Why It Matters</h2>
-  <p class="lead-small">Making AI cheaper isn’t just about efficiency—it’s about freedom.</p>
-  <ul class="list-chevrons">
-    <li>Startups can focus on building, not survival.</li>
-    <li>Researchers can ask bigger questions and take risks.</li>
-    <li>Enterprises &amp; governments can scale responsibly without waste.</li>
-    <li>The world gets faster innovation, more diverse teams, and a more open future for intelligence.</li>
-  </ul>
-</section>
+  <div class="blog-grid" id="posts">
+    <article class="post" data-category="manifesto">
+      <h4>The Kudu Labs Manifesto</h4>
+      <p>Our principles and invitation to a new era of AI exploration.</p>
+      <div style="height:12px"></div>
+      <a href="manifesto.html">Read →</a>
+    </article>
 
 
-<!-- MANIFESTO -->
-<section id="manifesto" class="section reveal" data-reveal>
-  <h2>Manifesto — excerpt</h2>
-  <p class="lead-small">We believe intelligence should be a public good: accessible, affordable, and safe. The Kudu Labs manifesto outlines how software systems can change the economics of AI and unlock a new era of discovery.</p>
-
-  <div style="height:14px"></div>
-  <article class="card">
-    <h3>Excerpts</h3>
-    <p>Cost shapes research. Expensive compute narrows curiosity. We will change incentives by reducing the price of experimentation — freeing researchers to ask bolder questions.</p>
-    <p>We favor pragmatic, auditable systems: software that improves efficiency, transparency, and long-term safety. Build in public when it helps scrutiny; stay discreet where risks demand caution.</p>
-    <div style="height:10px"></div>
-    <a class="btn btn-primary" href="manifesto.html">Read manifesto</a>
-  </article>
-</section>
-
-
-
-<!-- CLOSING -->
-<section class="closing reveal" data-reveal>
-  <h2>Ready to rethink AI?</h2>
-  <p class="lead-small">If you care about research, equity, and long-term impact — join the waitlist or apply to the founding team.</p>
-  <div style="height:14px"></div>
-  <button class="btn btn-large btn-primary" onclick="openModal('join')">Apply to join</button>
-  <button class="btn btn-large btn-primary"  onclick="openModal('waitlist')">Join waitlist</button>
+  </div>
 </section>
 
 <footer>
@@ -264,7 +150,6 @@
     © 2025 Kudu Labs, Inc. — Research & collaboration
   </div>
 </footer>
-
 
 <!-- MODALS (waitlist, contact, join) -->
 <div id="waitlist-modal" class="modal" aria-hidden="true">
@@ -309,36 +194,7 @@
   </div>
 </div>
 
-<script>
-document.addEventListener("DOMContentLoaded", ()=>{
-  const el = document.getElementById("hero-line");
-  const full = document.querySelector(".typewrap .ghost")?.textContent
-             || "Reimagine how intelligence is powered";
 
-  // Réglage vitesse (ms par caractère)
-  const SPEED = 30; // ← plus grand = plus lent (essaie 200–260)
-
-  let i = 0;
-  function type() {
-    if (i <= full.length) {
-      el.textContent = full.slice(0, i);
-      i++;
-      setTimeout(type, SPEED);
-    } else {
-      // Option: retire le curseur à la fin
-      el.style.borderRight = "none";
-    }
-  }
-  type();
-});
-
-document.documentElement.classList.add('no-caret');
-
-</script>
-
-
-<script src="https://unpkg.com/three@0.121.1/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.net.min.js"></script>
 <script src="main.js" defer></script>
 <script src="forms.js" defer></script>
 
