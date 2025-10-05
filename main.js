@@ -33,7 +33,7 @@ function initVantaSafe(){
     el: '#vanta-bg',
     THREE: window.THREE,
     backgroundColor: 0x0f1213,
-    color: 0x555555,
+    color: 0x262626,
     points: 20.0,
     maxDistance: 26.0,
     spacing: 12.0,
@@ -298,3 +298,4 @@ window.addEventListener('beforeunload', ()=>{ if(vantaEffect) vantaEffect.destro
   // lance
   nextTick();
 })();
+
